@@ -5,7 +5,7 @@ const router  = Router()
 
 router.post('/signup' ,async (req,res,next)=>{
     const user = await signup(req.body)
-    return successResponse({res,data:user , message:"User added successfully"})
+    return successResponse({res,data:user , message:"User added successfully" , status:201})
 })
 
 router.post('/login' ,async (req,res,next)=>{
