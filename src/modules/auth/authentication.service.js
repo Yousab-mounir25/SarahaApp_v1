@@ -20,8 +20,8 @@ export const signup = async (inputs) => {
     data: {
       username,
       email,
-      password: await hash({ plainText: password }),
-      phone:await encryption(phone),
+      password: await hash({ plainText: password }), //hash the password before saving to the database
+      phone:await encryption(phone), //encrypt the phone number before saving to the database
       age,
     },
     model: UserModel,
@@ -38,10 +38,10 @@ export const login = async (inputs) => {
   if (!existingUser) {
     throw NotFoundException("invalid login credentials"); // check for email
   }
-  const match = await compare(password, existingUser.password);
+  const match = await compare(password, existingUser.password); //check for password
   if (!match) {
-    throw NotFoundException("invalid login credentials"); //check for password
+    throw NotFoundException("invalid login credentials"); 
   }
-  existingUser.phone = await decryption(existingUser.phone)
+  existingUser.phone = await decryption(existingUser.phone) //decrypt the phone number before returning the user object
   return existingUser;
 };
