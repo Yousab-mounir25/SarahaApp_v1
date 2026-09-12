@@ -1,0 +1,72 @@
+(1) Authentication  
+    "who are you"
+    It is the process of checking that a user is actually the person they claim to be.
+
+for example , if we have an Endpoint like this: POST /user/login
+and the user sends:
+{
+    "email": "yousab@gmail.com",
+    "password": "123456"
+}
+the server goes check:
+    Does the email exist ?
+              ↓
+    is the password correct?
+              ↓
+    Yes → User is authenticated
+    No  → Login rejected    
+
+============================================================
+
+(2) Token
+
+After a successfull login , the server can give the user a Token
+
+    for Example:
+            Login
+            ↓
+        Email + Password
+            ↓
+        Server verifies them
+            ↓
+        Server gives you a token
+            ↓
+        "eyJhbGciOiJIUzI1NiIs..."
+
+and the client keep the token ,
+so when the user try to access a protected API
+instead of sending Email and password again , they send the Token
+
+============================================================
+
+(3) bearer Token
+    whoever possesses this token can use it.
+
+Usually, the token is sent in the HTTP Authorization header.
+
+for example:
+Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+there are two parts : bearer + token 
+so:
+    Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+is called Bearer token Authentication scheme
+
+## why do we use Bearer token??
+instead of the user send every time :
+{
+    email:".....",
+    password:" ......" 
+}
+
+just send:
+    GET /users/profile
+    Authorization: Bearer eyJhbGciOiJIUzI1NiIs...
+and the server extract the token :
+    const authHeader = req.headers.authorization;
+
+the result might be like:
+    Bearer eyJhbGciOiJIUzI1NiIs...
+
+then get the acutal token:
+const token = authHeader.split(" ")[1]
+
